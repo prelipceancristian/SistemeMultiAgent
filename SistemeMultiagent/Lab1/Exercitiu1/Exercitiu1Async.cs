@@ -5,9 +5,7 @@ namespace SistemeMultiagent.Lab1.Exercitiu1;
 public class MyAgentAsync : Agent
 {
     private readonly int _seed;
-    private Random _random;
     private int _millisecondDelay;
-    private int _reachedValue = 0;
     
     public MyAgentAsync(int seed)
     {
@@ -16,28 +14,20 @@ public class MyAgentAsync : Agent
     
     public override async void Setup()
     {
-        _random = new Random(_seed);
-        _millisecondDelay = _random.Next(500, 5000);
-        Console.WriteLine("Setup done");
+        var random = new Random(_seed);
+        _millisecondDelay = random.Next(500, 5000); 
         foreach (var index in Enumerable.Range(1, 100))
         {
             Send("monitor", index.ToString());
             await Task.Delay(_millisecondDelay);
-            Console.WriteLine("ActDefault shoo");
         }
     }
 }
 
 public class MonitorAgentAsync : Agent
 {
-    public override void Setup()
-    {
-        Console.WriteLine("monitor setup");
-    }
-    
     public override void Act(Message message)
     {
-        Console.WriteLine("monitor act");
         Console.WriteLine($"Agentul {message.Sender} a numarat pana la valoarea {message.Content}");
     }
 }
